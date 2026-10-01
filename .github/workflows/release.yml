@@ -24,7 +24,9 @@ jobs:
           v=$(python3 -c 'import re; print(re.search(r"__version__ = \"(.+)\"", open("src/prime_lc_lcd/__init__.py").read())[1])')
           test "v$v" = "$GITHUB_REF_NAME"
       - run: pip install build pytest && python -m pytest -q
-      - run: scripts/build-deb.sh && python -m build
+      - name: Build the .deb on the oldest supported Ubuntu (installs on newer ones too)
+        run: scripts/check-deb.sh ubuntu:24.04 dist
+      - run: python -m build
       - run: cd dist && sha256sum * > SHA256SUMS
       - name: Publish the GitHub release
         env:

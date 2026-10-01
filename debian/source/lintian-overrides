@@ -1,0 +1,3 @@
+# pyproject.toml only drives the PyPI wheel. The Debian build installs the
+# pure-Python module directly (debian/install) and never runs setuptools.
+prime-lc-lcd source: missing-prerequisite-for-pyproject-backend setuptools.build_meta *

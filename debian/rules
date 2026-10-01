@@ -1,0 +1,19 @@
+#!/usr/bin/make -f
+
+%:
+	dh $@
+
+# Plain Python application: nothing to build, files are placed by
+# debian/install and byte-compiled by dh_python3.
+override_dh_auto_build override_dh_auto_install override_dh_auto_clean:
+
+override_dh_auto_test:
+ifeq (,$(filter nocheck,$(DEB_BUILD_OPTIONS)))
+	PYTHONPATH=src python3 -m pytest -q -p no:cacheprovider tests
+endif
+
+override_dh_python3:
+	dh_python3 /usr/share/prime-lc-lcd
+
+override_dh_installsystemd:
+	dh_installsystemd --restart-after-upgrade

@@ -39,7 +39,10 @@ sudo apt install ./prime-lc-lcd_*_all.deb
 ```
 
 The package creates the `prime-lc-lcd` system user, installs the udev rule
-that gives that user access to the cooler, and starts the service.
+that gives that user access to the cooler, and starts the service. It is
+built and tested on Debian 13, Debian unstable, Ubuntu 24.04 and Ubuntu 26.04.
+An Ubuntu PPA and an official Debian package are in progress
+([docs/packaging.md](docs/packaging.md)).
 
 ### Other distributions
 
@@ -104,8 +107,10 @@ acknowledgement. [docs/protocol.md](docs/protocol.md) describes the format.
 python3 -m venv .venv && .venv/bin/pip install pytest ruff
 .venv/bin/python -m pytest -q
 .venv/bin/ruff check . && .venv/bin/ruff format --check .
-scripts/build-deb.sh            # needs dpkg-deb
+scripts/check-deb.sh ubuntu:24.04 dist   # build + lint + install test in Docker
 ```
+
+Release and distribution steps are in [docs/packaging.md](docs/packaging.md).
 
 ## License
 

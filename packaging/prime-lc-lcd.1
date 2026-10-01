@@ -1,0 +1,81 @@
+.TH PRIME-LC-LCD 1 "2026-10-01" "prime-lc-lcd 0.1.1" "User Commands"
+.SH NAME
+prime-lc-lcd \- show CPU/GPU readings on the ASUS PRIME LC ARGB LCD cooler screen
+.SH SYNOPSIS
+.B prime-lc-lcd
+.RB [ \-\-show " " alternate | cpu | gpu ]
+.RB [ \-\-interval " " \fIseconds\fR]
+.RB [ \-\-gpu " " auto | nvidia | amd | none ]
+.RB [ \-\-device " " \fIpath\fR]
+.RB [ \-v ]
+.br
+.B prime-lc-lcd
+.BR \-\-list " | " \-\-readings " | " \-\-switch\-theme " | " \-\-version
+.SH DESCRIPTION
+.B prime-lc-lcd
+sends the CPU and GPU temperature, load and clock speed to the LCD of the
+ASUS PRIME LC ARGB LCD all-in-one cooler (USB 0b05:1bbe) once per second.
+The cooler renders the readings with its selected built-in theme.
+.PP
+Without an action option it runs until stopped; this is what the
+.B prime-lc-lcd.service
+systemd unit starts. It reconnects by itself when the cooler is unplugged.
+.SH OPTIONS
+.TP
+.BR \-\-show " " alternate | cpu | gpu
+What the screen shows. The default,
+.BR alternate ,
+switches between the CPU and the GPU.
+.TP
+.BI \-\-interval " seconds"
+Seconds per source when alternating (default 5).
+.TP
+.BR \-\-gpu " " auto | nvidia | amd | none
+GPU to read.
+.B auto
+(the default) tries NVIDIA through NVML, then AMD through sysfs.
+.TP
+.BI \-\-device " path"
+The cooler's hidraw node. By default it is found automatically.
+.TP
+.B \-\-list
+List connected coolers and exit; exits 1 when none is found.
+.TP
+.B \-\-readings
+Print the current readings without sending them.
+.TP
+.B \-\-switch\-theme
+Advance the screen to its next built-in theme and exit. Themes cycle; repeat
+until the wanted one is shown.
+.TP
+.BR \-v ", " \-\-verbose
+Debug logging.
+.TP
+.B \-\-version
+Print the version and exit.
+.SH ENVIRONMENT
+.BR PRIME_LC_LCD_SHOW ,
+.BR PRIME_LC_LCD_INTERVAL ,
+.BR PRIME_LC_LCD_GPU " and"
+.B PRIME_LC_LCD_DEVICE
+set the defaults of the matching options. The service reads them from
+.IR /etc/default/prime-lc-lcd .
+.SH FILES
+.TP
+.I /etc/default/prime-lc-lcd
+Service settings.
+.TP
+.I /usr/lib/udev/rules.d/70-prime-lc-lcd.rules
+Gives the
+.B prime-lc-lcd
+user access to the cooler.
+.SH SEE ALSO
+.BR systemctl (1),
+.BR journalctl (1)
+.PP
+The protocol is described in
+.IR /usr/share/doc/prime-lc-lcd/protocol.md .
+.SH BUGS
+https://github.com/vakaobr/prime-lc-lcd/issues
+.SH AUTHOR
+Anderson Leite <andersonleite@outlook.com>

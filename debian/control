@@ -1,0 +1,39 @@
+Source: prime-lc-lcd
+Section: utils
+Priority: optional
+Maintainer: Anderson Leite <andersonleite@outlook.com>
+Build-Depends:
+ debhelper-compat (= 13),
+ dh-sequence-installsysusers,
+ dh-sequence-python3,
+ python3:any,
+ python3-pytest <!nocheck>,
+Standards-Version: 4.7.4
+Rules-Requires-Root: no
+Homepage: https://github.com/vakaobr/prime-lc-lcd
+Vcs-Browser: https://github.com/vakaobr/prime-lc-lcd
+Vcs-Git: https://github.com/vakaobr/prime-lc-lcd.git
+
+Package: prime-lc-lcd
+Architecture: all
+Pre-Depends:
+ ${misc:Pre-Depends},
+Depends:
+ ${misc:Depends},
+ ${python3:Depends},
+Recommends:
+ systemd,
+Description: show CPU/GPU readings on the ASUS PRIME LC ARGB LCD cooler screen
+ The ASUS PRIME LC ARGB LCD all-in-one CPU cooler has a small LCD on its
+ pump that only shows useful content while ASUS's Windows utility runs.
+ This package replaces that utility on Linux: a small unprivileged daemon
+ sends the CPU and GPU temperature, load and clock to the screen once per
+ second, alternating between the two or showing just one.
+ .
+ NVIDIA GPUs are read through NVML (shipped with the proprietary driver),
+ AMD GPUs through the amdgpu sysfs interface, and CPU temperatures from the
+ k10temp, zenpower or coretemp hwmon drivers. The cooler is accessed
+ through hidraw, with a udev rule granting access to a dedicated system
+ user, and the daemon runs as a sandboxed systemd service.
+ .
+ Supported device: USB 0b05:1bbe ("PRIME LC LCD").
