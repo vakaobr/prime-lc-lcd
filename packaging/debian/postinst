@@ -1,0 +1,17 @@
+#!/bin/sh
+set -e
+if [ "$1" = configure ]; then
+    getent group prime-lc-lcd >/dev/null || groupadd --system prime-lc-lcd
+    getent passwd prime-lc-lcd >/dev/null || \
+        useradd --system --gid prime-lc-lcd --no-create-home --home-dir /nonexistent \
+            --shell /usr/sbin/nologin --comment "ASUS PRIME LC LCD service" prime-lc-lcd
+    if command -v udevadm >/dev/null; then
+        udevadm control --reload || true
+        udevadm trigger --subsystem-match=hidraw --action=change || true
+    fi
+    if [ -d /run/systemd/system ]; then
+        systemctl daemon-reload
+        systemctl enable prime-lc-lcd.service >/dev/null 2>&1 || true
+        systemctl restart prime-lc-lcd.service || true
+    fi
+fi

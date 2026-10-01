@@ -1,0 +1,2 @@
+# ASUS PRIME LC ARGB LCD cooler screen (0b05:1bbe): writable by the prime-lc-lcd service user.
+SUBSYSTEM=="hidraw", ATTRS{idVendor}=="0b05", ATTRS{idProduct}=="1bbe", GROUP="prime-lc-lcd", MODE="0660"

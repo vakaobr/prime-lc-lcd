@@ -1,0 +1,14 @@
+# Settings for the prime-lc-lcd service. Restart it after editing:
+#   sudo systemctl restart prime-lc-lcd
+
+# What the screen shows: alternate (CPU, then GPU), cpu or gpu.
+PRIME_LC_LCD_SHOW=alternate
+
+# Seconds per source when alternating.
+PRIME_LC_LCD_INTERVAL=5
+
+# GPU to read: auto (NVIDIA first, then AMD), nvidia, amd or none.
+PRIME_LC_LCD_GPU=auto
+
+# hidraw node of the cooler; empty means autodetect.
+PRIME_LC_LCD_DEVICE=

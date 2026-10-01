@@ -1,0 +1,44 @@
+[build-system]
+requires = ["setuptools>=77"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "prime-lc-lcd"
+dynamic = ["version"]
+description = "Live CPU/GPU readings on the ASUS PRIME LC ARGB LCD cooler screen, for Linux"
+readme = "README.md"
+license = "MIT"
+license-files = ["LICENSE"]
+requires-python = ">=3.9"
+authors = [{ name = "Anderson Leite" }]
+keywords = ["asus", "prime-lc", "aio", "cooler", "lcd", "hidraw", "linux", "hardware-monitoring"]
+classifiers = [
+  "Development Status :: 4 - Beta",
+  "Environment :: No Input/Output (Daemon)",
+  "Operating System :: POSIX :: Linux",
+  "Programming Language :: Python :: 3",
+  "Topic :: System :: Hardware",
+  "Topic :: System :: Monitoring",
+]
+
+[project.urls]
+Homepage = "https://github.com/vakaobr/prime-lc-lcd"
+Issues = "https://github.com/vakaobr/prime-lc-lcd/issues"
+
+[project.scripts]
+prime-lc-lcd = "prime_lc_lcd.cli:main"
+
+[tool.setuptools.dynamic]
+version = { attr = "prime_lc_lcd.__version__" }
+
+[tool.ruff]
+line-length = 120
+target-version = "py39"
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "B", "UP", "S", "SIM"]
+ignore = ["S101"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src"]

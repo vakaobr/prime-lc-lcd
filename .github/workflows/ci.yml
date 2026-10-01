@@ -1,0 +1,50 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python: ["3.9", "3.11", "3.13", "3.14"]
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version: ${{ matrix.python }}
+      - run: pip install pytest ruff
+      - run: ruff check . && ruff format --check .
+      - run: python -m pytest -q
+
+  package:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: Build the .deb
+        run: scripts/build-deb.sh
+      - name: Install it and smoke-test
+        run: |
+          sudo apt-get install -y ./dist/prime-lc-lcd_*_all.deb
+          prime-lc-lcd --version
+          prime-lc-lcd --list && exit 1 || echo "no cooler on the runner, as expected"
+          prime-lc-lcd --readings --gpu none
+          systemctl cat prime-lc-lcd.service >/dev/null
+          getent passwd prime-lc-lcd
+          sudo apt-get purge -y prime-lc-lcd
+          if getent passwd prime-lc-lcd; then echo 'purge left the user behind'; exit 1; fi
+      - run: pip install build && python -m build
+      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: packages
+          path: dist/

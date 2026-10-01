@@ -1,0 +1,40 @@
+[Unit]
+Description=Live CPU/GPU readings on the ASUS PRIME LC ARGB LCD cooler screen
+Documentation=https://github.com/vakaobr/prime-lc-lcd
+After=systemd-udev-settle.service nvidia-persistenced.service
+
+[Service]
+Type=simple
+User=prime-lc-lcd
+Group=prime-lc-lcd
+EnvironmentFile=-/etc/default/prime-lc-lcd
+ExecStart=/usr/bin/prime-lc-lcd
+Restart=always
+RestartSec=5
+
+# It only reads sysfs/procfs and writes one hidraw node.
+NoNewPrivileges=yes
+CapabilityBoundingSet=
+ProtectSystem=strict
+ProtectHome=yes
+PrivateTmp=yes
+PrivateNetwork=yes
+RestrictAddressFamilies=AF_UNIX
+ProtectKernelTunables=yes
+ProtectKernelModules=yes
+ProtectKernelLogs=yes
+ProtectControlGroups=yes
+ProtectClock=yes
+ProtectHostname=yes
+RestrictNamespaces=yes
+RestrictRealtime=yes
+RestrictSUIDSGID=yes
+LockPersonality=yes
+MemoryDenyWriteExecute=yes
+SystemCallArchitectures=native
+SystemCallFilter=@system-service
+MemoryMax=64M
+CPUQuota=10%
+
+[Install]
+WantedBy=multi-user.target
