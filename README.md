@@ -29,7 +29,16 @@ TUF/TX Gaming LC) use different protocols and are not supported.
 
 ## Install
 
-### Debian, Ubuntu and derivatives
+### Ubuntu 24.04 and 26.04 (PPA)
+
+```bash
+sudo add-apt-repository ppa:vakaobr/prime-lc-lcd
+sudo apt install prime-lc-lcd
+```
+
+Updates then arrive through `apt upgrade` like any other package.
+
+### Debian and other Debian-based distributions
 
 Download the `.deb` from the
 [latest release](https://github.com/vakaobr/prime-lc-lcd/releases/latest) and:
@@ -38,10 +47,10 @@ Download the `.deb` from the
 sudo apt install ./prime-lc-lcd_*_all.deb
 ```
 
-The package creates the `prime-lc-lcd` system user, installs the udev rule
-that gives that user access to the cooler, and starts the service. It is
-built and tested on Debian 13, Debian unstable, Ubuntu 24.04 and Ubuntu 26.04.
-An Ubuntu PPA and an official Debian package are in progress
+Either way, the package creates the `prime-lc-lcd` system user, installs the
+udev rule that gives that user access to the cooler, and starts the service.
+It is built and tested on Debian 13, Debian unstable, Ubuntu 24.04 and Ubuntu
+26.04. An official Debian package is in progress
 ([docs/packaging.md](docs/packaging.md)).
 
 ### Other distributions

@@ -60,22 +60,21 @@ One-time setup:
    allow_unsigned_uploads = 0
    ```
 
-Each release, upload once per Ubuntu series, changing only the changelog
-entry. PPA versions sort below the eventual archive version:
+Each release (after the vX.Y.Z tag is on GitHub), from any machine with
+Docker and the signing key, including macOS:
 
 ```bash
-cp debian/changelog ../changelog.debian
-orig=-sa                               # send the orig tarball with the first upload only
-for series in noble:24.04 resolute:26.04; do
-    name=${series%%:*} num=${series##*:}
-    cp ../changelog.debian debian/changelog
-    dch -b -v "$v-1~ppa1~ubuntu$num.1" -D "$name" "PPA build for Ubuntu $num."
-    dpkg-buildpackage -S $orig -k<KEYID>
-    dput prime-lc-lcd "../prime-lc-lcd_$v-1~ppa1~ubuntu$num.1_source.changes"
-    orig=-sd
-done
-cp ../changelog.debian debian/changelog
+scripts/ppa-release.sh X.Y.Z              # build, sign and upload for every series
+NO_UPLOAD=1 scripts/ppa-release.sh X.Y.Z  # build and sign only, into dist/ppa/X.Y.Z/
+PPA_REV=2 scripts/ppa-release.sh X.Y.Z    # re-upload the same version after a packaging fix
 ```
+
+It downloads GitHub's tag tarball as the orig tarball, builds one source
+package per Ubuntu series in an `ubuntu:<release>` container (versions
+`X.Y.Z-1~ppaN~ubuntuNN.NN.1`, which sort below the eventual archive version),
+signs them with `scripts/sign-changes.py` (a small debsign replacement that
+works without devscripts) and uploads them with dput. Series are listed at the
+top of the script; add a new Ubuntu release there.
 
 Launchpad builds the binaries; users then run:
 
