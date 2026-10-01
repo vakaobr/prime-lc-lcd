@@ -17,7 +17,8 @@ import re
 import shutil
 import subprocess
 
-DEFAULT_KEY = "C11708432D7816D5DF0F68EADB6DE8C654E10EA0"
+# Public OpenPGP fingerprint of the maintainer's signing key (not a secret).
+MAINTAINER_FPR = "C11708432D7816D5DF0F68EADB6DE8C654E10EA0"
 
 
 def clearsign(path: str, key: str) -> None:
@@ -80,7 +81,7 @@ def sign(changes: str, key: str) -> None:
 
 def main() -> None:
     ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
-    ap.add_argument("--key", default=os.environ.get("DEBSIGN_KEYID", DEFAULT_KEY))
+    ap.add_argument("--key", default=os.environ.get("DEBSIGN_KEYID", MAINTAINER_FPR))
     ap.add_argument("changes", nargs="+")
     args = ap.parse_args()
     for c in args.changes:
