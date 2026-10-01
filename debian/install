@@ -1,0 +1,5 @@
+src/prime_lc_lcd usr/share/prime-lc-lcd/
+debian/bin/prime-lc-lcd usr/bin/
+packaging/systemd/prime-lc-lcd.service usr/lib/systemd/system/
+packaging/udev/70-prime-lc-lcd.rules usr/lib/udev/rules.d/
+packaging/default/prime-lc-lcd etc/default/

@@ -1,0 +1,6 @@
+Test-Command: prime-lc-lcd --version && prime-lc-lcd --readings --gpu none && { prime-lc-lcd --list; test $? -le 1; }
+Depends: @
+Restrictions: superficial
+
+Tests: unit
+Depends: @, python3-pytest

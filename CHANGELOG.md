@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.1.1 - 2026-10-01
+
+Packaging release; no change to what the screen shows.
+
+- Proper Debian source package (`debian/`), built and tested on Debian unstable, Ubuntu 24.04 and 26.04, ready for a PPA and for Debian.
+- The service user is now created by systemd-sysusers.
+- Manual page `prime-lc-lcd(1)`.
+- A bare `make` no longer installs anything.
+
 ## 0.1.0 - 2026-10-01
 
 First release.

@@ -5,7 +5,11 @@ PYDIR  ?= $(PREFIX)/lib/prime-lc-lcd
 UNITDIR ?= /etc/systemd/system
 UDEVDIR ?= /etc/udev/rules.d
 
-.PHONY: install uninstall test lint deb
+.PHONY: all install uninstall test lint deb
+
+# Nothing to build; keeps a bare `make` (or a packaging tool) from installing.
+all:
+	@echo 'Pure Python, nothing to build. Use: sudo make install'
 
 install:
 	install -d $(DESTDIR)$(PREFIX)/bin $(DESTDIR)$(UNITDIR)
@@ -39,4 +43,4 @@ lint:
 	ruff check . && ruff format --check .
 
 deb:
-	scripts/build-deb.sh
+	scripts/check-deb.sh debian:unstable dist
